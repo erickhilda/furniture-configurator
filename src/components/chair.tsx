@@ -7,7 +7,7 @@ Command: npx gltfjsx@6.2.10 c:\\Users\\erick\\project\\personal\\furniture-confi
 
 import * as THREE from "three";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useGLTF } from "@react-three/drei";
+import { useGLTF, useTexture } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { proxy, useSnapshot } from "valtio";
 import { useFrame } from "@react-three/fiber";
@@ -50,6 +50,11 @@ export function Chair(props: JSX.IntrinsicElements["group"]) {
   const [hovered, set] = useState<string>("");
   const { nodes, materials } = useGLTF("/model/chair.glb") as GLTFResult;
 
+  // load textures
+  const selectedTexture = useTexture({
+    map: `/img/texture/denim_.jpg`,
+  });
+
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
     ref.current.rotation.y = Math.PI * 2.75;
@@ -71,9 +76,9 @@ export function Chair(props: JSX.IntrinsicElements["group"]) {
     }
   }, [hovered, snap.items]);
 
-  useEffect(() => {
-    hoveredEffect();
-  }, [hoveredEffect]);
+  // useEffect(() => {
+  //   hoveredEffect();
+  // }, [hoveredEffect]);
 
   return (
     <group
@@ -82,7 +87,6 @@ export function Chair(props: JSX.IntrinsicElements["group"]) {
       dispose={null}
       onPointerOver={(e) => {
         e.stopPropagation();
-        console.log(e.object.name);
         set(e.object.name);
       }}
       onPointerOut={(e) => e.intersections.length === 0 && set("")}
@@ -104,6 +108,7 @@ export function Chair(props: JSX.IntrinsicElements["group"]) {
         geometry={nodes.cushions.geometry}
         material={materials.wire_196010216}
         material-color={snap.items.cushions}
+        material-map={selectedTexture.map}
         rotation={[-Math.PI, 0, -Math.PI]}
         scale={0.096}
       />
