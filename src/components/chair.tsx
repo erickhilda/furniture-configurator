@@ -9,8 +9,9 @@ import * as THREE from "three";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useGLTF, useTexture } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
-import { proxy, useSnapshot } from "valtio";
+import { useSnapshot } from "valtio";
 import { useFrame } from "@react-three/fiber";
+import { furnitureConfig } from "@/helpers/store";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -26,34 +27,39 @@ type GLTFResult = GLTF & {
   };
 };
 
-type FurnitureConfig = {
-  current: string | null;
-  items: {
-    [key: string]: string;
-  };
-};
+type ChairGroup = JSX.IntrinsicElements["group"];
+interface ChairProps extends ChairGroup {
+  selectedPart: string;
+  selectedTexture: string;
+}
 
-const furnitureConfig: FurnitureConfig = proxy({
-  current: "" as string | null,
-  items: {
-    legs: "#F4F4F4",
-    cushions: "#F4F4F4",
-    back: "#F4F4F4",
-    supports: "#F4F4F4",
-    base: "#F4F4F4",
-  },
-});
-
-export function Chair(props: JSX.IntrinsicElements["group"]) {
+export function Chair({ selectedPart, selectedTexture, ...rest }: ChairProps) {
   const ref = useRef<THREE.Group>(null!);
   const snap = useSnapshot(furnitureConfig);
   const [hovered, set] = useState<string>("");
   const { nodes, materials } = useGLTF("/model/chair.glb") as GLTFResult;
 
-  // load textures
-  const selectedTexture = useTexture({
-    map: `/img/texture/denim_.jpg`,
-  });
+  const partTexture = useTexture({ map: `/img/texture/${selectedTexture}` });
+
+  useEffect(() => {
+    if (selectedPart) {
+      ref.current.traverse((child) => {
+        if (child instanceof THREE.Mesh && child.name !== "") {
+          if (child.name === selectedPart) {
+            // loop through textures and change the wrapped texture
+            Object.values(partTexture).forEach((texture) => {
+              texture.wrapS = THREE.RepeatWrapping;
+              texture.wrapT = THREE.RepeatWrapping;
+            });
+            const newMaterial = new THREE.MeshStandardMaterial({
+              map: partTexture.map,
+            });
+            child.material = newMaterial;
+          }
+        }
+      });
+    }
+  }, [selectedTexture]);
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
@@ -76,14 +82,10 @@ export function Chair(props: JSX.IntrinsicElements["group"]) {
     }
   }, [hovered, snap.items]);
 
-  // useEffect(() => {
-  //   hoveredEffect();
-  // }, [hoveredEffect]);
-
   return (
     <group
       ref={ref}
-      {...props}
+      {...rest}
       dispose={null}
       onPointerOver={(e) => {
         e.stopPropagation();
@@ -94,6 +96,8 @@ export function Chair(props: JSX.IntrinsicElements["group"]) {
       onClick={(e) => (
         e.stopPropagation(), (furnitureConfig.current = e.object.name)
       )}
+      receiveShadow
+      castShadow
     >
       <mesh
         name="legs"
@@ -102,39 +106,44 @@ export function Chair(props: JSX.IntrinsicElements["group"]) {
         material-color={snap.items.legs}
         rotation={[-Math.PI, 0, -Math.PI]}
         scale={0.096}
+        castShadow
+        receiveShadow
       />
       <mesh
         name="cushions"
         geometry={nodes.cushions.geometry}
         material={materials.wire_196010216}
-        material-color={snap.items.cushions}
-        material-map={selectedTexture.map}
         rotation={[-Math.PI, 0, -Math.PI]}
         scale={0.096}
+        castShadow
+        receiveShadow
       />
       <mesh
         name="back"
         geometry={nodes.back.geometry}
         material={materials.wire_002049060}
-        material-color={snap.items.back}
         rotation={[-Math.PI, 0, -Math.PI]}
         scale={0.096}
+        castShadow
+        receiveShadow
       />
       <mesh
         name="supports"
         geometry={nodes.supports.geometry}
         material={nodes.supports.material}
-        material-color={snap.items.supports}
         rotation={[-Math.PI, 0, -Math.PI]}
         scale={0.096}
+        castShadow
+        receiveShadow
       />
       <mesh
         name="base"
         geometry={nodes.base.geometry}
         material={materials.wire_002049060}
-        material-color={snap.items.base}
         rotation={[-Math.PI, 0, -Math.PI]}
         scale={0.096}
+        castShadow
+        receiveShadow
       />
     </group>
   );

@@ -27,28 +27,34 @@ const options = [
     image: "/img/options/base.svg",
     alt: "base part image",
   },
-  {
-    name: "supports",
-    image: "/img/options/supports.svg",
-    alt: "supports part image",
-  },
 ];
 
-function PartOptions() {
+function PartOptions({
+  selectedPart,
+  setSelectedPart,
+}: {
+  selectedPart: string;
+  setSelectedPart: (part: string) => void;
+  }) {
   return (
     <div className="absolute top-[50%] -translate-y-2/3 left-2 z-[9999]">
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 bg-slate-300">
         {options.map((option) => (
           <div
             key={option.name}
             className={clsx(
+              "max-h-14 bg-white",
               "flex justify-center cursor-pointer",
               "ease-in-out transition-transform delay-150",
-              "hover:shadow-md hover:shadow-slate-400 hover:translate-x-3"
+              "hover:shadow-md hover:shadow-slate-400 hover:translate-x-3",
+              selectedPart === option.name &&
+                "shadow-md shadow-slate-400 translate-x-3 border-r-2 border-red-500"
             )}
             data-option={option.name}
+            role="button"
+            onClick={() => setSelectedPart(option.name)}
           >
-            <Image src={option.image} width={54} height={54} alt={option.alt} />
+            <Image src={option.image} width={56} height={56} alt={option.alt} />
           </div>
         ))}
       </div>

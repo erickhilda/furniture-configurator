@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import Image from "next/image";
 
 type TextureOption = {
@@ -10,31 +11,31 @@ type TextureOption = {
 const textures: TextureOption[] = [
   {
     type: "texture",
-    texture: "/img/texture/wood_.jpg",
+    texture: "wood_.jpg",
     size: [2, 2, 2],
     shininess: 60,
   },
   {
     type: "texture",
-    texture: "/img/texture/fabric_.jpg",
+    texture: "fabric_.jpg",
     size: [4, 4, 4],
     shininess: 0,
   },
   {
     type: "texture",
-    texture: "/img/texture/pattern_.jpg",
+    texture: "pattern_.jpg",
     size: [8, 8, 8],
     shininess: 10,
   },
   {
     type: "texture",
-    texture: "/img/texture/denim_.jpg",
+    texture: "denim_.jpg",
     size: [3, 3, 3],
     shininess: 0,
   },
   {
     type: "texture",
-    texture: "/img/texture/quilt_.jpg",
+    texture: "quilt_.jpg",
     size: [6, 6, 6],
     shininess: 0,
   },
@@ -240,21 +241,32 @@ const textures: TextureOption[] = [
   // },
 ];
 
-function TextureOptions() {
+function TextureOptions({
+  setSelectedTexture,
+}: {
+  setSelectedTexture: (texture: string) => void;
+}) {
   return (
     <div className="absolute bottom-0 z-[9999]">
       {/* create slider of option colors */}
-      <div className="flex justify-center max-h-16 overflow-x-auto">
+      <div className="flex justify-center overflow-x-auto">
         {textures.map((texture, index) => {
           if (texture.type === "texture") {
             return (
               <Image
                 key={index}
-                src={texture.texture as string}
+                src={`/img/texture/${texture.texture}`}
                 width={64}
                 height={64}
                 alt={`texture-${index}`}
                 objectFit="cover"
+                className={clsx(
+                  "cursor-pointer h-16",
+                  "ease-in-out transition-transform delay-150"
+                  // "hover:-translate-y-1 hover:scale-110 transform"
+                )}
+                role="button"
+                onClick={() => setSelectedTexture(texture.texture)}
               />
             );
           }
