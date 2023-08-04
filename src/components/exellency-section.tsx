@@ -28,7 +28,7 @@ function ExellencySection() {
   return (
     <section
       className={clsx(
-        "flex justify-between w-full pt-52 px-32 -translate-y-1/4",
+        "flex flex-col lg:flex-row justify-between w-full pt-16 lg:pt-52 px-6 lg:px-32 lg:-translate-y-1/4",
         "bg-gradient-to-t from-white via-white to-transparent"
       )}
     >
@@ -42,13 +42,13 @@ function ExellencySection() {
           house, with the added bonus.
         </p>
       </div>
-      <div className="grid grid-cols-2 grid-rows-2 gap-6 text-white">
+      <div className="grid grid-cols-2 grid-rows-2 gap-3 lg:gap-6 text-white mt-4 lg:mt-0">
         {exellencyItems.map((item, idx) => (
           <div
             key={`exellency-item-${idx}`}
             className={clsx(
-              "w-72 h-72 rounded-3xl p-6",
-              (idx + 1) % 2 === 0 ? "-translate-y-14" : "translate-y-14",
+              "lg:w-72 lg:h-72 w-36 h-36 rounded-3xl p-2 lg:p-6",
+              (idx + 1) % 2 === 0 ? "lg:-translate-y-14" : "translate-y-14",
               "flex flex-col items-center justify-center",
               item.variant === "green"
                 ? "bg-matcha-500 shadow-2xl shadow-matcha-500"
@@ -57,13 +57,14 @@ function ExellencySection() {
           >
             <div
               className={clsx(
+                "w-20 h-20 lg:h-36 lg:w-36",
                 "rounded-full p-[0.125rem]",
                 "bg-gradient-to-b from-matcha-400 to-transparent"
               )}
             >
               <div
                 className={clsx(
-                  "flex items-center justify-center rounded-full p-3",
+                  "flex items-center justify-center rounded-full p-1 lg:p-3",
                   "bg-gradient-to-b from-matcha-700 to-matcha-1000"
                 )}
               >
@@ -75,7 +76,7 @@ function ExellencySection() {
                 />
               </div>
             </div>
-            <p className="font-poppins text-2xl mt-6">{item.title}</p>
+            <p className="font-poppins text-center lg:text-2xl mt-3 lg:mt-6">{item.title}</p>
           </div>
         ))}
       </div>
