@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { Transition, motion } from "framer-motion";
 import clsx from "clsx";
 
 const exellencyItems = [
@@ -51,7 +51,7 @@ function ExellencySection() {
             transition: {
               bounce: 0.5,
               duration: 1,
-              type: "spring",
+              type: "spring" as Transition["type"]
             },
           },
         }}
