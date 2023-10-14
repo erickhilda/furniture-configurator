@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { motion } from "framer-motion";
+import { Transition, motion } from "framer-motion";
 import Image from "next/image";
 import livingRoomImg from "public/img/landing-page/living-room.jpeg";
 import diningRoomImg from "public/img/landing-page/dining-room.png";
@@ -72,7 +72,6 @@ function ShopByrOOMSection() {
             transition: {
               bounce: 0.5,
               duration: 1,
-              type: "spring",
               timingFunction: "easeIn",
             },
           },

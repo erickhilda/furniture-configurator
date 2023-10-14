@@ -51,7 +51,6 @@ function ExellencySection() {
             transition: {
               bounce: 0.5,
               duration: 1,
-              type: "spring" as Transition["type"]
             },
           },
         }}
@@ -84,7 +83,6 @@ function ExellencySection() {
                 transition: {
                   bounce: 0.5,
                   duration: idx * 0.5,
-                  type: "spring",
                 },
               },
             }}
