@@ -12,3 +12,7 @@ body {
   color: rgb(var(--foreground-rgb));
   background: --foreground-rgb(var(--background-start-rgb), var(--background-end-rgb));
 }
+
+.debug {
+  @apply text-red-500 border border-red-500;
+}

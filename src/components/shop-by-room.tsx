@@ -46,10 +46,10 @@ function ShopByrOOMSection() {
               alt={room.title}
               width={64}
               height={64}
-              objectFit="cover"
+              quality={100}
               className={clsx(
                 "border-white border-2 rounded-xl -translate-x-2/4 -translate-y-1/4",
-                "w-16 h-16 lg:h-32 lg:w-32"
+                "w-16 h-16 lg:h-32 lg:w-32 object-cover"
               )}
             />
             <p className="text-white text-xl">{room.title}</p>
