@@ -6,14 +6,41 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+
+  --customize-button-bg: #ccc;
 }
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: --foreground-rgb(
+    var(--background-start-rgb),
+    var(--background-end-rgb)
+  );
+}
+
+.debug {
+  @apply text-red-500 border border-red-500;
+}
+
+.customize-button::before {
+  transform: scaleX(0);
+  transform-origin: bottom right;
+}
+
+.customize-button:hover::before {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.customize-button::before {
+  @apply rounded-full block absolute inset-0 z-[-1] top-0 right-0 left-0 bottom-0 transition-transform duration-300 ease-in-out;
+
+  content: " ";
+  background: var(--customize-button-bg);
+}
+
+.customize-button {
+  @apply hover:text-white relative flex items-center gap-2 uppercase px-4 py-2 text-xl rounded-full border overflow-hidden isolate;
+
+  border: 1px solid var(--customize-button-bg);
 }

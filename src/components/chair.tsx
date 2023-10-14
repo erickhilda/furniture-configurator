@@ -82,6 +82,10 @@ export function Chair({ selectedPart, selectedTexture, ...rest }: ChairProps) {
     }
   }, [hovered, snap.items]);
 
+  useEffect(() => {
+    hoveredEffect();
+  }, [hovered]);
+
   return (
     <group
       ref={ref}

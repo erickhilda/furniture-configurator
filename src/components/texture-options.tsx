@@ -259,9 +259,8 @@ function TextureOptions({
                 width={64}
                 height={64}
                 alt={`texture-${index}`}
-                objectFit="cover"
                 className={clsx(
-                  "cursor-pointer h-16",
+                  "cursor-pointer h-16 object-cover",
                   "ease-in-out transition-transform delay-150"
                   // "hover:-translate-y-1 hover:scale-110 transform"
                 )}
